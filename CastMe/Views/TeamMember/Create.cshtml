@@ -1,15 +1,18 @@
 ﻿@model  TeamMember
 @{
-    ViewData["Title"] = "AddTeamMember";
+    ViewData["Title"] = "CreateTeamMember";
 }
 
-<h1>AddTeamMember</h1>
+<h1>Create TeamMember</h1>
 
-<form asp-action="AddTeamMember" method="post" class="form-horizontal" role="form">
+
+<form asp-action="Create" method="post" class="form-horizontal" role="form">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
         <label asp-for="FirstName" class="col-md-2 control-label"></label>
         <div class="col-md-5">
             <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
         </div>
     </div>
 
@@ -17,6 +20,17 @@
         <label asp-for="LastName" class="col-md-2 control-label"></label>
         <div class="col-md-5">
             <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Role" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <select class="form-control" asp-for="Role"
+                    asp-items="Html.GetEnumSelectList<Roles>()">
+            </select>
+            <span asp-validation-for="Role" class="text-danger"></span>
         </div>
     </div>
 
@@ -24,6 +38,7 @@
         <label asp-for="Email" class="col-md-2 control-label"></label>
         <div class="col-md-5">
             <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
         </div>
     </div>
 
@@ -31,6 +46,7 @@
         <label asp-for="PhoneNumber" class="col-md-2 control-label"></label>
         <div class="col-md-5">
             <input asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
         </div>
     </div>
 
@@ -54,15 +70,6 @@
             <input asp-for="Equipment" class="form-control" />
         </div>
     </div>
-
-    @*<div class="form-group">
-            <label asp-for="Role" class="col-md-2 control-label"></label>
-            <div class="col-md-5">
-                <select class="form-control" asp-for="Role"
-                        asp-items="Roles.Camera">
-                </select>
-            </div>
-        </div>*@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-5">

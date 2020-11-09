@@ -97,6 +97,7 @@ namespace CastMe.API.Controllers
                 var existingTeamMember = await _teamMemberRepository.GetTeamMemberAsync(id);
                 if (existingTeamMember == null) return NotFound($"Could not find the team member by the name {teamMember.FirstName} {teamMember.LastName}");
 
+                existingTeamMember.EditDate = DateTime.Now;
                 _mapper.Map(teamMember, existingTeamMember);
 
                 if(await _teamMemberRepository.SaveChangesAsync())

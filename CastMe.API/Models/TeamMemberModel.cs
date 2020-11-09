@@ -9,6 +9,7 @@ namespace CastMe.API.Models
 {
     public class TeamMemberModel
     {
+        public int TeamMemberId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Role Role { get; set; }

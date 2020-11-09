@@ -1,0 +1,40 @@
+﻿@model TeamMember
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<h1>Details</h1>
+
+<dl class="row">
+    <dt class="col-sm-3">First name:</dt>
+    <dd class="col-sm-9">@Model.FirstName</dd>
+
+    <dt class="col-sm-3">Last name:</dt>
+    <dd class="col-sm-9">@Model.LastName</dd>
+
+    <dt class="col-sm-3">Role:</dt>
+    <dd class="col-sm-9">@Model.Role</dd>
+
+    <dt class="col-sm-3">Email:</dt>
+    <dd class="col-sm-9">@Model.Email</dd>
+
+    <dt class="col-sm-3">Phone number:</dt>
+    <dd class="col-sm-9">@Model.PhoneNumber</dd>
+
+    <dt class="col-sm-3">Ig handle:</dt>
+    <dd class="col-sm-9">@Model.IgHandle</dd>
+
+    <dt class="col-sm-3">Fb handle:</dt>
+    <dd class="col-sm-9">@Model.FbHandle</dd>
+
+    <dt class="col-sm-3">Equipment:</dt>
+    <dd class="col-sm-9">@Model.Equipment</dd>
+</dl>
+
+<p class="buttton">
+    <a class="btn btn-primary"
+       asp-controller="TeamMember"
+       asp-action="List">
+        Back to list
+    </a>
+</p>
