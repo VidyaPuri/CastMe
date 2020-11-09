@@ -1,0 +1,78 @@
+﻿@model  TeamMember
+@{
+    ViewData["Title"] = "Edit";
+}
+<h1>Edit</h1>
+
+<form asp-action="Edit" method="post" class="form-horizontal" role="form">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="TeamMemberId" />
+    <div class="form-group">
+        <label asp-for="FirstName" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="LastName" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Role" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <select class="form-control" asp-for="Role"
+                    asp-items="Html.GetEnumSelectList<Roles>()">
+            </select>
+            <span asp-validation-for="Role" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PhoneNumber" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="IgHandle" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="IgHandle" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="FbHandle" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="FbHandle" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Equipment" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Equipment" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-5">
+            <input type="submit" class="btn btn-primary" value="Save changes" />
+        </div>
+    </div>
+</form>
