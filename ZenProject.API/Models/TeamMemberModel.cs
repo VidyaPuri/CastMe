@@ -1,4 +1,5 @@
 ﻿using ZenProject.Data.Entities;
+using ZenProject.Data.Entities.Enums;
 
 namespace ZenProject.API.Models
 {
@@ -7,7 +8,7 @@ namespace ZenProject.API.Models
         public int TeamMemberId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public Role Role { get; set; }
+        public Roles Role { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string IgHandle { get; set; }

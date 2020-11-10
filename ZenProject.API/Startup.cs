@@ -31,7 +31,7 @@ namespace ZenProject.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("CastMeDb")));
+                options.UseSqlServer(Configuration.GetConnectionString("ZenProjectDb")));
             services.AddScoped<ITeamMemberRepository, TeamMemberRepository>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 

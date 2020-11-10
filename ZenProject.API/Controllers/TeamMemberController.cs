@@ -62,7 +62,7 @@ namespace ZenProject.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<TeamMemberModel>> Post(TeamMemberModel model)
+        public async Task<ActionResult<TeamMemberModel>> Create(TeamMemberModel model)
         {
             try
             {

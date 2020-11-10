@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ZenProject.Data.Entities
+﻿namespace ZenProject.Data.Entities.Enums
 {
-    public enum Role
+    public enum Roles
     {
         Director,
         Producer,
