@@ -1,38 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using ZenProject.Models;
-using ZenProject.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using ZenProject.Web.ViewModels;
+using ZenProject.Web.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace ZenProject.Controllers
 {
     public class TeamMemberController : Controller
     {
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
-        }
-
-        public async Task<IActionResult> List()
-        {
-            TeamMemberListViewModel teamMembers = new TeamMemberListViewModel();
-            //teamMembers.TeamMembers = _teamMemberData.GetAll();
+            TeamMemberListViewModel teamMember = new TeamMemberListViewModel();
 
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44376/api/teammember"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    teamMembers.TeamMembers = JsonConvert.DeserializeObject<List<TeamMember>>(apiResponse);
-                }
+                using var response = await httpClient.GetAsync("https://localhost:44376/api/teammember");
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                teamMember.TeamMembers = JsonConvert.DeserializeObject<List<TeamMember>>(apiResponse);
             }
 
-            return View(teamMembers);
+            return View("List", teamMember);
         }
 
         public async Task<IActionResult> Details(int id)
@@ -41,11 +33,9 @@ namespace ZenProject.Controllers
 
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync($"https://localhost:44376/api/teammember/{id}"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    teamMember = JsonConvert.DeserializeObject<TeamMember>(apiResponse);
-                }
+                using var response = await httpClient.GetAsync($"https://localhost:44376/api/teammember/{id}");
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                teamMember = JsonConvert.DeserializeObject<TeamMember>(apiResponse);
             }
             if (teamMember == null) return NotFound("Could not find this user!");
 
@@ -55,23 +45,6 @@ namespace ZenProject.Controllers
         public IActionResult Create()
         {
             return View();
-        }
-
-        public async Task<IActionResult> Edit(int id)
-        {
-            TeamMember teamMember;
-
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync($"https://localhost:44376/api/teammember/{id}"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    teamMember = JsonConvert.DeserializeObject<TeamMember>(apiResponse);
-                }
-            }
-            if (teamMember == null) return NotFound("Could not find this user!");
-
-            return View(teamMember);
         }
 
         [HttpPost]
@@ -88,8 +61,23 @@ namespace ZenProject.Controllers
                     var response = JsonConvert.DeserializeObject(apiResponse);
                     Console.WriteLine(response);
                 }
-                return RedirectToAction("List");
+                return RedirectToAction("Index");
             }
+
+            return View(teamMember);
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            TeamMember teamMember;
+
+            using (var httpClient = new HttpClient())
+            {
+                using var response = await httpClient.GetAsync($"https://localhost:44376/api/teammember/{id}");
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                teamMember = JsonConvert.DeserializeObject<TeamMember>(apiResponse);
+            }
+            if (teamMember == null) return NotFound("Could not find this user!");
 
             return View(teamMember);
         }
@@ -108,20 +96,32 @@ namespace ZenProject.Controllers
                 var response = JsonConvert.DeserializeObject(apiResponse);
                 Console.WriteLine(response);
             }
-            return RedirectToAction("List");
+            return RedirectToAction("Index");
         }
 
-
-        public async Task<ActionResult<TeamMember>> Delete(int id)
+        public IActionResult Delete(int id)
         {
-            using (var httpClient = new HttpClient())
+            return View();
+        }
+
+        public async Task<ActionResult<TeamMember>> Delete(int id, IFormCollection collections)
+        {
+            try
             {
-                using var responseMessage = await httpClient.DeleteAsync($"https://localhost:44376/api/teammember/{id}");
-                string apiResponse = await responseMessage.Content.ReadAsStringAsync();
-                var response = JsonConvert.DeserializeObject(apiResponse);
-                Console.WriteLine(response);
+                using (var httpClient = new HttpClient())
+                {
+                    using var responseMessage = await httpClient.DeleteAsync($"https://localhost:44376/api/teammember/{id}");
+                    string apiResponse = await responseMessage.Content.ReadAsStringAsync();
+                    var response = JsonConvert.DeserializeObject(apiResponse);
+                    Console.WriteLine(response);
+                }
+                return RedirectToAction("List");
             }
-            return RedirectToAction("List");
+            catch (Exception)
+            {
+                return View();
+            }
+
         }
 
         //[HttpPost, ActionName("Edit")]

@@ -1,0 +1,10 @@
+﻿@model Staff
+
+<h2>Delete!</h2>
+<div class="alert alert-danger">
+    Are you sure you want to delete @Model.FirstName @Model.LastName?
+</div>
+<form method="post">
+    <button type="submit" class="btn btn-danger">Yes!</button>
+    <a asp-action="Index" class="btn btn-dark">Cancel</a>
+</form>

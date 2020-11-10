@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using ZenProject.Models.Enums;
 
-namespace ZenProject.Models
+namespace ZenProject.Web.Models
 {
     public class TeamMember
     {

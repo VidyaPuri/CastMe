@@ -1,4 +1,4 @@
-﻿namespace ZenProject.Models
+﻿namespace ZenProject.Models.Enums
 {
     public enum Roles
     {

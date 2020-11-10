@@ -1,0 +1,59 @@
+﻿@model StaffListViewModel
+@{
+    ViewData["Title"] = "Staff";
+}
+<h1>Staff Members</h1>
+
+<table class="table table-striped table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Role</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone number</th>
+            @*<th scope="col">IgHandle</th>
+                <th scope="col">FbHandle</th>*@
+            <th></th>
+            @*            <th scope="col">Equipment</th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var staffMembers in Model.StaffList)
+        {
+            <tr>
+                <td>@staffMembers.FirstName</td>
+                <td>@staffMembers.LastName</td>
+                <td>@staffMembers.Gender</td>
+                <td>@staffMembers.Email</td>
+                <td>@staffMembers.PhoneNumber</td>
+                @*<td>@teamMember.IgHandle</td>
+                    <td>@teamMember.FbHandle</td>*@
+                <td>
+                    <a class="btn btn-lg"
+                       asp-controller="Staff"
+                       asp-action="Details"
+                       asp-route-id="@staffMembers.StaffId">
+                        <i class="fa fa-search-plus"></i>
+                    </a>
+                    <a class="btn btn-lg"
+                       asp-controller="Staff"
+                       asp-action="Edit"
+                       asp-route-id="@staffMembers.StaffId">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a class="btn btn-lg"
+                       asp-controller="Staff"
+                       asp-action="Delete"
+                       asp-route-id="@staffMembers.StaffId">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p class="button">
+    <a class="btn btn-primary" asp-controller="Staff" asp-action="Create">Add a Staff Member</a>
+</p>

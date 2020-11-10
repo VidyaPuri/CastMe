@@ -1,4 +1,4 @@
-namespace ZenProject.Models
+namespace ZenProject.Web.Models
 {
     public class ErrorViewModel
     {
