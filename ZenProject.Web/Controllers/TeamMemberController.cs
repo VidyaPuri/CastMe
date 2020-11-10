@@ -99,11 +99,22 @@ namespace ZenProject.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            return View();
+            TeamMember teamMember;
+
+            using (var httpClient = new HttpClient())
+            {
+                using var response = await httpClient.GetAsync($"https://localhost:44376/api/teammember/{id}");
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                teamMember = JsonConvert.DeserializeObject<TeamMember>(apiResponse);
+            }
+            if (teamMember == null) return NotFound("Could not find this user!");
+
+            return View(teamMember);
         }
 
+        [HttpPost]
         public async Task<ActionResult<TeamMember>> Delete(int id, IFormCollection collections)
         {
             try
@@ -115,11 +126,11 @@ namespace ZenProject.Controllers
                     var response = JsonConvert.DeserializeObject(apiResponse);
                     Console.WriteLine(response);
                 }
-                return RedirectToAction("List");
+                return RedirectToAction("Index");
             }
             catch (Exception)
             {
-                return View();
+                return RedirectToAction("Index");
             }
 
         }

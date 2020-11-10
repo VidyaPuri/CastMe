@@ -37,12 +37,22 @@ namespace ZenProject.Web.Models
         [RegularExpression(@"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|""(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*"")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])",
             ErrorMessage = "The email address is not entered in a correct format")]
         public string Email { get; set; }
+
+        [Display(Name = "Instagram handle")]
         public string IgHandle { get; set; }
+
+        [Display(Name = "Facebook handle")]
         public string FbHandle { get; set; }
+        
+        [Display(Name = "Hair color")]
         public string HairColor { get; set; }
         public int Height { get; set; }
         public int Weight { get; set; }
+
+        [Display(Name = "Confection number")]
         public int ConfectionNumber { get; set; }
+
+        [Display(Name = "Shoe size")]
         public int FeetSize { get; set; }
         public string Alergies { get; set; }
         public string Hobbies { get; set; }
