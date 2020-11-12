@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZenProject.API.Data;
 
 namespace ZenProject.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201111201858_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -215,57 +217,6 @@ namespace ZenProject.API.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ZenProject.API.Data.Entities.Project", b =>
-                {
-                    b.Property<int>("ProjectId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CompletedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Composition")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Concept")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Equipment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Form")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Lighting")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Location")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Other")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Outfit")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Props")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("StartingDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ProjectId");
-
-                    b.ToTable("Projects");
-                });
-
             modelBuilder.Entity("ZenProject.API.Data.Entities.Talent", b =>
                 {
                     b.Property<int>("TalentId")
@@ -315,12 +266,6 @@ namespace ZenProject.API.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProjectId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
-
                     b.Property<int>("ShoeSize")
                         .HasColumnType("int");
 
@@ -329,9 +274,7 @@ namespace ZenProject.API.Migrations
 
                     b.HasKey("TalentId");
 
-                    b.HasIndex("ProjectId");
-
-                    b.ToTable("Talents");
+                    b.ToTable("Talent");
                 });
 
             modelBuilder.Entity("ZenProject.Data.Entities.Staff", b =>
@@ -368,15 +311,10 @@ namespace ZenProject.API.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProjectId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
                     b.HasKey("StaffId");
-
-                    b.HasIndex("ProjectId");
 
                     b.ToTable("StaffMembers");
 
@@ -384,7 +322,7 @@ namespace ZenProject.API.Migrations
                         new
                         {
                             StaffId = 1,
-                            CreationDate = new DateTime(2020, 11, 12, 19, 43, 56, 35, DateTimeKind.Local).AddTicks(1651),
+                            CreationDate = new DateTime(2020, 11, 11, 21, 18, 58, 282, DateTimeKind.Local).AddTicks(5782),
                             Email = "gc@gmail.com",
                             Equipment = "Kamera - Sony, Studijske luči",
                             FbHandle = "facebook\\gajsl",
@@ -397,7 +335,7 @@ namespace ZenProject.API.Migrations
                         new
                         {
                             StaffId = 2,
-                            CreationDate = new DateTime(2020, 11, 12, 19, 43, 56, 39, DateTimeKind.Local).AddTicks(9359),
+                            CreationDate = new DateTime(2020, 11, 11, 21, 18, 58, 286, DateTimeKind.Local).AddTicks(6768),
                             Email = "bs@gmail.com",
                             Equipment = "",
                             FbHandle = "facebook\\bobby",
@@ -410,7 +348,7 @@ namespace ZenProject.API.Migrations
                         new
                         {
                             StaffId = 3,
-                            CreationDate = new DateTime(2020, 11, 12, 19, 43, 56, 39, DateTimeKind.Local).AddTicks(9588),
+                            CreationDate = new DateTime(2020, 11, 11, 21, 18, 58, 286, DateTimeKind.Local).AddTicks(6958),
                             Email = "ab@gmail.com",
                             Equipment = "Make up equipment",
                             FbHandle = "facebook\\annieMUA",
@@ -423,7 +361,7 @@ namespace ZenProject.API.Migrations
                         new
                         {
                             StaffId = 4,
-                            CreationDate = new DateTime(2020, 11, 12, 19, 43, 56, 39, DateTimeKind.Local).AddTicks(9625),
+                            CreationDate = new DateTime(2020, 11, 11, 21, 18, 58, 286, DateTimeKind.Local).AddTicks(6993),
                             Email = "luckar@gmail.com",
                             Equipment = "Lights, Dimmers, ..",
                             FbHandle = "facebook\\luckarZdravko",
@@ -484,20 +422,6 @@ namespace ZenProject.API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ZenProject.API.Data.Entities.Talent", b =>
-                {
-                    b.HasOne("ZenProject.API.Data.Entities.Project", null)
-                        .WithMany("Talents")
-                        .HasForeignKey("ProjectId");
-                });
-
-            modelBuilder.Entity("ZenProject.Data.Entities.Staff", b =>
-                {
-                    b.HasOne("ZenProject.API.Data.Entities.Project", null)
-                        .WithMany("Staff")
-                        .HasForeignKey("ProjectId");
                 });
 #pragma warning restore 612, 618
         }

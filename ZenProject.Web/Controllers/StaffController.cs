@@ -1,35 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using ZenProject.Web.Models;
 using ZenProject.Web.ViewModels;
+using ZenProject.Web.Models;
+using Microsoft.AspNetCore.Http;
 
-namespace ZenProject.Web.Controllers
+namespace ZenProject.Controllers
 {
     public class StaffController : Controller
     {
-        // GET: Staff
         public async Task<IActionResult> Index()
         {
-            StaffListViewModel staffMembers = new StaffListViewModel();
+            StaffListViewModel staffList = new StaffListViewModel();
 
             using (var httpClient = new HttpClient())
             {
                 using var response = await httpClient.GetAsync("https://localhost:44376/api/staff");
                 string apiResponse = await response.Content.ReadAsStringAsync();
-                staffMembers.StaffList = JsonConvert.DeserializeObject<List<Staff>>(apiResponse);
+                staffList.StaffMembers = JsonConvert.DeserializeObject<List<Staff>>(apiResponse);
             }
 
-            return View("List",staffMembers);
+            return View("List", staffList);
         }
 
-        // GET: Staff/Details/5
         public async Task<IActionResult> Details(int id)
         {
             Staff staffMember;
@@ -45,15 +42,12 @@ namespace ZenProject.Web.Controllers
             return View(staffMember);
         }
 
-        // GET: Staff/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Staff/Create
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Staff staffMember)
         {
             if (ModelState.IsValid)
@@ -73,32 +67,23 @@ namespace ZenProject.Web.Controllers
             return View(staffMember);
         }
 
-        // GET: Staff/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            try
-            {
-                Staff staffMember;
+            Staff staffMember;
 
-                using (var httpClient = new HttpClient())
-                {
-                    using var response = await httpClient.GetAsync($"https://localhost:44376/api/staff/{id}");
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    staffMember = JsonConvert.DeserializeObject<Staff>(apiResponse);
-                }
-                if (staffMember == null) return NotFound("Could not find this user!");
-
-                return View(staffMember);
-            }
-            catch
+            using (var httpClient = new HttpClient())
             {
-                return View();
+                using var response = await httpClient.GetAsync($"https://localhost:44376/api/staff/{id}");
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                staffMember = JsonConvert.DeserializeObject<Staff>(apiResponse);
             }
+            if (staffMember == null) return NotFound("Could not find this user!");
+
+            return View(staffMember);
         }
 
-        // POST: Staff/Edit/5
         [HttpPost, ActionName("Edit")]
-        public async Task<IActionResult> Edit(int? id, Staff staffMember)
+        public async Task<ActionResult<Staff>> Edit(int? id, Staff staffMember)
         {
             if (id == null) return NotFound();
 
@@ -114,7 +99,6 @@ namespace ZenProject.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Staff/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
             Staff staffMember;
@@ -130,18 +114,33 @@ namespace ZenProject.Web.Controllers
             return View(staffMember);
         }
 
-        // POST: Staff/Delete/5
         [HttpPost]
-        public async Task<IActionResult> Delete(int id, IFormCollection collection)
+        public async Task<ActionResult<Staff>> Delete(int id, IFormCollection collections)
         {
-            using (var httpClient = new HttpClient())
+            try
             {
-                using var responseMessage = await httpClient.DeleteAsync($"https://localhost:44376/api/staff/{id}");
-                string apiResponse = await responseMessage.Content.ReadAsStringAsync();
-                var response = JsonConvert.DeserializeObject(apiResponse);
-                Console.WriteLine(response);
+                using (var httpClient = new HttpClient())
+                {
+                    using var responseMessage = await httpClient.DeleteAsync($"https://localhost:44376/api/staff/{id}");
+                    string apiResponse = await responseMessage.Content.ReadAsStringAsync();
+                    var response = JsonConvert.DeserializeObject(apiResponse);
+                    Console.WriteLine(response);
+                }
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
+            catch (Exception)
+            {
+                return RedirectToAction("Index");
+            }
+
         }
+
+        //[HttpPost, ActionName("Edit")]
+        //public async Task<ActionResult<Staff>> EditPost(int? id)
+        //{
+        //    if (id == null) return NotFound();
+
+                
+        //}
     }
 }

@@ -10,8 +10,8 @@ using ZenProject.API.Data;
 namespace ZenProject.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20201110194652_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20201112172801_AddRoleToTalent")]
+    partial class AddRoleToTalent
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -217,9 +217,9 @@ namespace ZenProject.API.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ZenProject.API.Data.Entities.Staff", b =>
+            modelBuilder.Entity("ZenProject.API.Data.Entities.Talent", b =>
                 {
-                    b.Property<int>("StaffId")
+                    b.Property<int>("TalentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -241,9 +241,6 @@ namespace ZenProject.API.Migrations
 
                     b.Property<string>("FbHandle")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("FeetSize")
-                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
@@ -269,17 +266,23 @@ namespace ZenProject.API.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ShoeSize")
+                        .HasColumnType("int");
+
                     b.Property<int>("Weight")
                         .HasColumnType("int");
 
-                    b.HasKey("StaffId");
+                    b.HasKey("TalentId");
 
-                    b.ToTable("Staff");
+                    b.ToTable("Talent");
                 });
 
-            modelBuilder.Entity("ZenProject.Data.Entities.TeamMember", b =>
+            modelBuilder.Entity("ZenProject.Data.Entities.Staff", b =>
                 {
-                    b.Property<int>("TeamMemberId")
+                    b.Property<int>("StaffId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -314,15 +317,15 @@ namespace ZenProject.API.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
-                    b.HasKey("TeamMemberId");
+                    b.HasKey("StaffId");
 
-                    b.ToTable("TeamMembers");
+                    b.ToTable("StaffMembers");
 
                     b.HasData(
                         new
                         {
-                            TeamMemberId = 1,
-                            CreationDate = new DateTime(2020, 11, 10, 20, 46, 51, 693, DateTimeKind.Local).AddTicks(728),
+                            StaffId = 1,
+                            CreationDate = new DateTime(2020, 11, 12, 18, 28, 1, 467, DateTimeKind.Local).AddTicks(1962),
                             Email = "gc@gmail.com",
                             Equipment = "Kamera - Sony, Studijske luči",
                             FbHandle = "facebook\\gajsl",
@@ -334,8 +337,8 @@ namespace ZenProject.API.Migrations
                         },
                         new
                         {
-                            TeamMemberId = 2,
-                            CreationDate = new DateTime(2020, 11, 10, 20, 46, 51, 697, DateTimeKind.Local).AddTicks(2830),
+                            StaffId = 2,
+                            CreationDate = new DateTime(2020, 11, 12, 18, 28, 1, 471, DateTimeKind.Local).AddTicks(5029),
                             Email = "bs@gmail.com",
                             Equipment = "",
                             FbHandle = "facebook\\bobby",
@@ -347,8 +350,8 @@ namespace ZenProject.API.Migrations
                         },
                         new
                         {
-                            TeamMemberId = 3,
-                            CreationDate = new DateTime(2020, 11, 10, 20, 46, 51, 697, DateTimeKind.Local).AddTicks(3038),
+                            StaffId = 3,
+                            CreationDate = new DateTime(2020, 11, 12, 18, 28, 1, 471, DateTimeKind.Local).AddTicks(5215),
                             Email = "ab@gmail.com",
                             Equipment = "Make up equipment",
                             FbHandle = "facebook\\annieMUA",
@@ -360,8 +363,8 @@ namespace ZenProject.API.Migrations
                         },
                         new
                         {
-                            TeamMemberId = 4,
-                            CreationDate = new DateTime(2020, 11, 10, 20, 46, 51, 697, DateTimeKind.Local).AddTicks(3071),
+                            StaffId = 4,
+                            CreationDate = new DateTime(2020, 11, 12, 18, 28, 1, 471, DateTimeKind.Local).AddTicks(5303),
                             Email = "luckar@gmail.com",
                             Equipment = "Lights, Dimmers, ..",
                             FbHandle = "facebook\\luckarZdravko",

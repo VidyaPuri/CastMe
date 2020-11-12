@@ -1,10 +1,8 @@
-﻿@model Staff
+﻿@model  Staff
 @{
-    ViewData["Title"] = "Edit Staff Member";
+    ViewData["Title"] = "Edit";
 }
-
-<h1>Create TeamMember</h1>
-
+<h1>Edit</h1>
 
 <form asp-action="Edit" method="post" class="form-horizontal" role="form">
     <div asp-validation-summary="All" class="text-danger"></div>
@@ -26,22 +24,15 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="DateOfBirth" class="col-md-2 control-label"></label>
+        <label asp-for="Role" class="col-md-2 control-label"></label>
         <div class="col-md-5">
-            <input asp-for="DateOfBirth" class="form-control" type="date" value="2011-08-19">
-            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            <select class="form-control" asp-for="Role"
+                    asp-items="Html.GetEnumSelectList<StaffRoles>()">
+            </select>
+            <span asp-validation-for="Role" class="text-danger"></span>
         </div>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Gender" class="col-md-2 control-label"></label>
-        <div class="col-md-5">
-            <select class="form-control" asp-for="Gender"
-                    asp-items="Html.GetEnumSelectList<Gender>()">
-            </select>
-            <span asp-validation-for="Gender" class="text-danger"></span>
-        </div>
-    </div>
 
     <div class="form-group">
         <label asp-for="Email" class="col-md-2 control-label"></label>
@@ -74,64 +65,15 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="HairColor" class="col-md-2 control-label"></label>
+        <label asp-for="Equipment" class="col-md-2 control-label"></label>
         <div class="col-md-5">
-            <input asp-for="HairColor" class="form-control" />
+            <input asp-for="Equipment" class="form-control" />
         </div>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Height" class="col-md-2 control-label"></label>
-        <div class="col-md-5">
-            <input asp-for="Height" class="form-control" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Weight" class="col-md-2 control-label"></label>
-        <div class="col-md-5">
-            <input asp-for="Weight" class="form-control" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="ConfectionNumber" class="col-md-2 control-label"></label>
-        <div class="col-md-5">
-            <input asp-for="ConfectionNumber" class="form-control" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="FeetSize" class="col-md-2 control-label"></label>
-        <div class="col-md-5">
-            <input asp-for="FeetSize" class="form-control" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Alergies" class="col-md-2 control-label"></label>
-        <div class="col-md-5">
-            <input asp-for="Alergies" class="form-control" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Hobbies" class="col-md-2 control-label"></label>
-        <div class="col-md-5">
-            <input asp-for="Hobbies" class="form-control" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Experience" class="col-md-2 control-label"></label>
-        <div class="col-md-5">
-            <input asp-for="Experience" class="form-control" />
-        </div>
-    </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-5">
             <input type="submit" class="btn btn-primary" value="Save changes" />
         </div>
     </div>
-
 </form>

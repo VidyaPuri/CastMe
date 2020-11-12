@@ -3,8 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using ZenProject.API.Data.Entities;
-
-
+using static ZenProject.Core.Enums;
 
 namespace ZenProject.API.Data
 {
@@ -15,20 +14,20 @@ namespace ZenProject.API.Data
 
         }
 
-        public DbSet<TeamMember> TeamMembers { get; set; }
+        public DbSet<Staff> StaffMembers { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<TeamMember>()
+            modelBuilder.Entity<Staff>()
                 .HasData(new
                 {
-                    TeamMemberId = 1,
+                    StaffId = 1,
                     FirstName = "Gaj",
                     LastName = "Črešnik",
-                    Role = ZenProject.Data.Entities.Enums.Roles.Camera,
+                    Role = StaffRoles.Camera,
                     Email = "gc@gmail.com",
                     PhoneNumber = "040-123-456",
                     IgHandle = "instagram\\gajsl",
@@ -37,13 +36,13 @@ namespace ZenProject.API.Data
                     CreationDate = DateTime.Now
                 }) ;
 
-            modelBuilder.Entity<TeamMember>()
+            modelBuilder.Entity<Staff>()
                 .HasData(new
                 {
-                    TeamMemberId = 2,
+                    StaffId = 2,
                     FirstName = "Bob",
                     LastName = "Sabath",
-                    Role = ZenProject.Data.Entities.Enums.Roles.Producer,
+                    Role = StaffRoles.Producer,
                     Email = "bs@gmail.com",
                     PhoneNumber = "040-334-555",
                     IgHandle = "instagram\\bobby",
@@ -51,13 +50,13 @@ namespace ZenProject.API.Data
                     Equipment = "",
                     CreationDate = DateTime.Now
                 });
-            modelBuilder.Entity<TeamMember>()
+            modelBuilder.Entity<Staff>()
                 .HasData(new
                 {
-                    TeamMemberId = 3,
+                    StaffId = 3,
                     FirstName = "Annie",
                     LastName = "Buzzer",
-                    Role = ZenProject.Data.Entities.Enums.Roles.MakeUp,
+                    Role = StaffRoles.MakeUp,
                     Email = "ab@gmail.com",
                     PhoneNumber = "031-435-725",
                     IgHandle = "instagram\\annieMUA",
@@ -65,13 +64,13 @@ namespace ZenProject.API.Data
                     Equipment = "Make up equipment",
                     CreationDate = DateTime.Now
                 });
-            modelBuilder.Entity<TeamMember>()
+            modelBuilder.Entity<Staff>()
                 .HasData(new
                 {
-                    TeamMemberId = 4,
+                    StaffId = 4,
                     FirstName = "Zdravko",
                     LastName = "Pravnyk",
-                    Role = ZenProject.Data.Entities.Enums.Roles.Lights,
+                    Role = StaffRoles.Lights,
                     Email = "luckar@gmail.com",
                     PhoneNumber = "041-465-725",
                     IgHandle = "instagram\\luckarZdravko",
@@ -82,7 +81,8 @@ namespace ZenProject.API.Data
         }
 
 
-        public DbSet<ZenProject.API.Data.Entities.Staff> Staff { get; set; }
+        public DbSet<Talent> Talents { get; set; }
+        public DbSet<Project> Projects { get; set; }
     }
 
 }

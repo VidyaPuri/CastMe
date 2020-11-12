@@ -1,18 +1,16 @@
 ﻿using ZenProject.Data;
 using ZenProject.Data.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace ZenProject.API.Data
 {
-    public class TeamMemberRepository : ITeamMemberRepository
+    public class StaffRepository : IStaffRepository
     {
         private readonly AppDbContext _appDbContext;
 
-        public TeamMemberRepository(AppDbContext appDbContext)
+        public StaffRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
@@ -27,18 +25,18 @@ namespace ZenProject.API.Data
             _appDbContext.Remove(entity);
         }
 
-        public async Task<TeamMember[]> GetAllAsync()
+        public async Task<Staff[]> GetAllAsync()
         {
-            IQueryable<TeamMember> teamMembers = _appDbContext.TeamMembers;
-            return await teamMembers.ToArrayAsync();
+            IQueryable<Staff> staffMembers = _appDbContext.StaffMembers;
+            return await staffMembers.ToArrayAsync();
         }
 
-        public async Task<TeamMember> GetTeamMemberAsync(int id)
+        public async Task<Staff> GetStaffMemberAsync(int id)
         {
-            IQueryable<TeamMember> teamMember = _appDbContext.TeamMembers
-                                                    .Where(tm => tm.TeamMemberId == id);
+            IQueryable<Staff> staffMember = _appDbContext.StaffMembers
+                                                    .Where(tm => tm.StaffId == id);
 
-            return await teamMember.FirstOrDefaultAsync();
+            return await staffMember.FirstOrDefaultAsync();
         }
 
         public async Task<bool> SaveChangesAsync()

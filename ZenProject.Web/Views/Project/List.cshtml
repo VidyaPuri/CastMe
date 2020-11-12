@@ -1,0 +1,55 @@
+﻿@model ProjectListViewModel
+@{
+    ViewData["Title"] = "Projects";
+}
+<h1>Projects</h1>
+
+<table class="table table-striped table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Project title</th>
+            <th scope="col">Status</th>
+            <th scope="col">Form</th>
+            <th scope="col">Starting date</th>
+            <th scope="col">Completed date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var project in Model.ProjectList)
+        {
+            <tr>
+                <td>@project.Title</td>
+                <td>@project.Status</td>
+                <td>@project.Form</td>
+                <td>@project.StartingDate</td>
+                <td>@project.CompletedDate</td>
+
+                <td>
+                    <a class="btn btn-lg"
+                       asp-controller="Project"
+                       asp-action="Details"
+                       asp-route-id="@project.ProjectId">
+                        <i class="fa fa-search-plus"></i>
+                    </a>
+                    <a class="btn btn-lg"
+                       asp-controller="Project"
+                       asp-action="Edit"
+                       asp-route-id="@project.ProjectId">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a class="btn btn-lg"
+                       asp-controller="Project"
+                       asp-action="Delete"
+                       asp-route-id="@project.ProjectId">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p class="button">
+    <a class="btn btn-primary" asp-controller="Project" asp-action="Create">Create new project</a>
+</p>

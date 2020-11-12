@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace ZenProject.Data
 {
-    public interface ITeamMemberRepository
+    public interface IStaffRepository
     {
         // general
         void Add<T>(T entity) where T : class;
         void Delete<T>(T entity) where T : class;
         Task<bool> SaveChangesAsync();
 
-        // TeamMember
-        Task<TeamMember[]> GetAllAsync();
-        Task<TeamMember> GetTeamMemberAsync(int id);
+        // Staff
+        Task<Staff[]> GetAllAsync();
+        Task<Staff> GetStaffMemberAsync(int id);
     }
 }

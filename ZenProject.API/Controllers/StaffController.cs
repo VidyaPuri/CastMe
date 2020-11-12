@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using ZenProject.API.Models;
+using ZenProject.Data;
+using ZenProject.Data.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ZenProject.API.Data;
-using ZenProject.API.Data.Entities;
+using Microsoft.AspNetCore.Routing;
 
 namespace ZenProject.API.Controllers
 {
@@ -12,97 +16,125 @@ namespace ZenProject.API.Controllers
     [ApiController]
     public class StaffController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IStaffRepository _teamMemberRepository;
+        private readonly IMapper _mapper;
+        private readonly LinkGenerator _linkGenerator;
 
-        public StaffController(AppDbContext context)
+        public StaffController(IStaffRepository teamMemberRepository,
+                                    IMapper mapper, 
+                                    LinkGenerator linkGenerator)
         {
-            _context = context;
+            _teamMemberRepository = teamMemberRepository;
+            _mapper = mapper;
+            _linkGenerator = linkGenerator;
         }
 
-        // GET: api/Staff
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Staff>>> GetStaff()
+        public async Task<ActionResult<StaffModel[]>> Get()
         {
-            return await _context.Staff.ToListAsync();
-        }
-
-        // GET: api/Staff/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Staff>> GetStaff(int id)
-        {
-            var staff = await _context.Staff.FindAsync(id);
-
-            if (staff == null)
-            {
-                return NotFound();
-            }
-
-            return staff;
-        }
-
-        // PUT: api/Staff/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutStaff(int id, Staff staff)
-        {
-            if (id != staff.StaffId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(staff).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!StaffExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                var results = await _teamMemberRepository.GetAllAsync();
 
-            return NoContent();
+                return _mapper.Map<StaffModel[]>(results);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
         }
 
-        // POST: api/Staff
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpGet("{Id:int}")]
+        public async Task<ActionResult<StaffModel>> Get(int id)
+        {
+            try
+            {
+                var staffMember = await _teamMemberRepository.GetStaffMemberAsync(id);
+                if (staffMember == null) return NotFound();
+
+                return _mapper.Map<StaffModel>(staffMember);
+
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
+        }
+
         [HttpPost]
-        public async Task<ActionResult<Staff>> PostStaff(Staff staff)
+        public async Task<ActionResult<StaffModel>> Create(StaffModel model)
         {
-            _context.Staff.Add(staff);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetStaff", new { id = staff.StaffId }, staff);
-        }
-
-        // DELETE: api/Staff/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Staff>> DeleteStaff(int id)
-        {
-            var staff = await _context.Staff.FindAsync(id);
-            if (staff == null)
+            try
             {
-                return NotFound();
+                // To -Do check if there is a Team Member with the same first and last name in the db
+
+                // Create new team member
+                var staffMember = _mapper.Map<Staff>(model);
+                _teamMemberRepository.Add(staffMember);
+
+                var location = _linkGenerator.GetPathByAction("Get", "Staff", new { StaffId = staffMember.StaffId });
+
+                if (await _teamMemberRepository.SaveChangesAsync())
+                {
+                    return Created(location, _mapper.Map<StaffModel>(staffMember));
+                }
+
+                return BadRequest();
+
             }
-
-            _context.Staff.Remove(staff);
-            await _context.SaveChangesAsync();
-
-            return staff;
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
         }
 
-        private bool StaffExists(int id)
+
+        [HttpPut("{Id:int}")]
+        public async Task<ActionResult<StaffModel>> Put(int id, StaffModel staffMember)
         {
-            return _context.Staff.Any(e => e.StaffId == id);
+            try
+            {
+                var existingTeamMember = await _teamMemberRepository.GetStaffMemberAsync(id);
+                if (existingTeamMember == null) return NotFound($"Could not find the team member by the name {staffMember.FirstName} {staffMember.LastName}");
+
+                existingTeamMember.EditDate = DateTime.Now;
+                _mapper.Map(staffMember, existingTeamMember);
+
+                if(await _teamMemberRepository.SaveChangesAsync())
+                {
+                    return _mapper.Map<StaffModel>(existingTeamMember);
+                }
+
+                return BadRequest("Failed to update the team member");
+
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
+        }
+
+        [HttpDelete("{Id:int}")]
+        public async Task<ActionResult<StaffModel>> Delete(int id)
+        {
+            try
+            {
+                var existingTeamMember = await _teamMemberRepository.GetStaffMemberAsync(id);
+                if (existingTeamMember == null) return NotFound($"Could not find the team member!");
+
+                _teamMemberRepository.Delete(existingTeamMember);
+
+                if (await _teamMemberRepository.SaveChangesAsync())
+                {
+                    return Ok();
+                }
+
+                return BadRequest("Failed to delete this team member");
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
         }
     }
 }

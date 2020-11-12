@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace ZenProject.API.Data.TeamMemberRepo
 {
-    public class TeamMemberProfile : Profile
+    public class StaffProfile : Profile
     {
-        public TeamMemberProfile()
+        public StaffProfile()
         {
-            CreateMap<TeamMember, TeamMemberModel>()
+            CreateMap<Staff, StaffModel>()
                 .ReverseMap();
         }
     }

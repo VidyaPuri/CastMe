@@ -1,6 +1,6 @@
 ﻿@model StaffListViewModel
 @{
-    ViewData["Title"] = "Staff";
+    ViewData["Title"] = "Staff Members";
 }
 <h1>Staff Members</h1>
 
@@ -9,47 +9,43 @@
         <tr>
             <th scope="col">First name</th>
             <th scope="col">Last name</th>
-            <th scope="col">Gender</th>
+            <th scope="col">Role</th>
             <th scope="col">Email</th>
             <th scope="col">Phone number</th>
-            @*<th scope="col">IgHandle</th>
-                <th scope="col">FbHandle</th>*@
             <th></th>
-            @*            <th scope="col">Equipment</th>*@
         </tr>
     </thead>
     <tbody>
-        @foreach (var staffMembers in Model.StaffList)
+        @foreach (var staffMember in Model.StaffMembers)
         {
-            <tr>
-                <td>@staffMembers.FirstName</td>
-                <td>@staffMembers.LastName</td>
-                <td>@staffMembers.Gender</td>
-                <td>@staffMembers.Email</td>
-                <td>@staffMembers.PhoneNumber</td>
-                @*<td>@teamMember.IgHandle</td>
-                    <td>@teamMember.FbHandle</td>*@
-                <td>
-                    <a class="btn btn-lg"
-                       asp-controller="Staff"
-                       asp-action="Details"
-                       asp-route-id="@staffMembers.StaffId">
-                        <i class="fa fa-search-plus"></i>
-                    </a>
-                    <a class="btn btn-lg"
-                       asp-controller="Staff"
-                       asp-action="Edit"
-                       asp-route-id="@staffMembers.StaffId">
-                        <i class="fa fa-edit"></i>
-                    </a>
-                    <a class="btn btn-lg"
-                       asp-controller="Staff"
-                       asp-action="Delete"
-                       asp-route-id="@staffMembers.StaffId">
-                        <i class="fa fa-trash"></i>
-                    </a>
-                </td>
-            </tr>
+        <tr>
+            <td>@staffMember.FirstName</td>
+            <td>@staffMember.LastName</td>
+            <td>@staffMember.Role</td>
+            <td>@staffMember.Email</td>
+            <td>@staffMember.PhoneNumber</td>
+
+            <td>
+                <a class="btn btn-lg"
+                   asp-controller="Staff"
+                   asp-action="Details"
+                   asp-route-id="@staffMember.StaffId">
+                    <i class="fa fa-search-plus"></i>
+                </a>
+                <a class="btn btn-lg"
+                   asp-controller="Staff"
+                   asp-action="Edit"
+                   asp-route-id="@staffMember.StaffId">
+                    <i class="fa fa-edit"></i>
+                </a>
+                <a class="btn btn-lg"
+                   asp-controller="Staff"
+                   asp-action="Delete"
+                   asp-route-id="@staffMember.StaffId">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

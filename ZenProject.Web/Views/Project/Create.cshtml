@@ -1,0 +1,113 @@
+﻿@model CreateProjectViewModel
+@{
+    ViewData["Title"] = "Create new Project";
+}
+
+<h1>Create new Project</h1>
+
+
+<form asp-action="Create" method="post" class="form-horizontal" role="form">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Project.Title" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Project.Title" class="form-control" />
+            <span asp-validation-for="Project.Title" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Project.Status" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <select class="form-control" asp-for="Project.Status"
+                    asp-items="Html.GetEnumSelectList<ProjectStatus>()">
+            </select>
+            <span asp-validation-for="Project.Status" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Project.Outfit" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Project.Outfit" class="form-control" />
+            <span asp-validation-for="Project.Outfit" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Project.Concept" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Project.Concept" class="form-control" />
+            <span asp-validation-for="Project.Concept" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Project.Location" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Project.Location" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Project.Lighting" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Project.Lighting" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Project.Composition" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Project.Composition" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Project.Props" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Project.Props" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Project.Equipment" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Project.Equipment" class="form-control" />
+        </div>
+    </div>
+
+    @*<div class="form-group">
+        <label asp-for="Talents" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <select class="form-control" asp-for="Talents"
+                    asp-items="">
+            </select>
+            <span asp-validation-for="Status" class="text-danger"></span>
+        </div>
+    </div>*@
+
+    <div class="form-group">
+        <label asp-for="Project.Form" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <select class="form-control" asp-for="Project.Form"
+                    asp-items="Html.GetEnumSelectList<ProjectForm>()">
+            </select>
+            <span asp-validation-for="Project.Form" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Project.Other" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Project.Other" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-5">
+            <input type="submit" class="btn btn-primary" value="Add" />
+        </div>
+    </div>
+
+</form>

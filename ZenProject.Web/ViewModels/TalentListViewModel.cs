@@ -3,8 +3,8 @@ using ZenProject.Web.Models;
 
 namespace ZenProject.Web.ViewModels
 {
-    public class TeamMemberListViewModel
+    public class TalentListViewModel
     {
-        public IEnumerable<TeamMember> TeamMembers { get; set; }
+        public IEnumerable<Talent> TalentList { get; set; }
     }
 }

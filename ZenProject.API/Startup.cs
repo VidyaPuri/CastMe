@@ -32,7 +32,7 @@ namespace ZenProject.API
         {
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ZenProjectDb")));
-            services.AddScoped<ITeamMemberRepository, TeamMemberRepository>();
+            services.AddScoped<IStaffRepository, StaffRepository>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.AddControllers();

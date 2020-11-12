@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ZenProject.API.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -47,38 +47,10 @@ namespace ZenProject.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Staff",
+                name: "StaffMembers",
                 columns: table => new
                 {
                     StaffId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    Gender = table.Column<int>(nullable: false),
-                    DateOfBirth = table.Column<DateTime>(nullable: false),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    IgHandle = table.Column<string>(nullable: true),
-                    FbHandle = table.Column<string>(nullable: true),
-                    HairColor = table.Column<string>(nullable: true),
-                    Height = table.Column<int>(nullable: false),
-                    Weight = table.Column<int>(nullable: false),
-                    ConfectionNumber = table.Column<int>(nullable: false),
-                    FeetSize = table.Column<int>(nullable: false),
-                    Alergies = table.Column<string>(nullable: true),
-                    Hobbies = table.Column<string>(nullable: true),
-                    Experience = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Staff", x => x.StaffId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TeamMembers",
-                columns: table => new
-                {
-                    TeamMemberId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
@@ -93,7 +65,35 @@ namespace ZenProject.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeamMembers", x => x.TeamMemberId);
+                    table.PrimaryKey("PK_StaffMembers", x => x.StaffId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Talent",
+                columns: table => new
+                {
+                    TalentId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Gender = table.Column<int>(nullable: false),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    IgHandle = table.Column<string>(nullable: true),
+                    FbHandle = table.Column<string>(nullable: true),
+                    HairColor = table.Column<string>(nullable: true),
+                    Height = table.Column<int>(nullable: false),
+                    Weight = table.Column<int>(nullable: false),
+                    ConfectionNumber = table.Column<int>(nullable: false),
+                    ShoeSize = table.Column<int>(nullable: false),
+                    Alergies = table.Column<string>(nullable: true),
+                    Hobbies = table.Column<string>(nullable: true),
+                    Experience = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Talent", x => x.TalentId);
                 });
 
             migrationBuilder.CreateTable(
@@ -203,14 +203,14 @@ namespace ZenProject.API.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "TeamMembers",
-                columns: new[] { "TeamMemberId", "CreationDate", "EditDate", "Email", "Equipment", "FbHandle", "FirstName", "IgHandle", "LastName", "PhoneNumber", "Role" },
+                table: "StaffMembers",
+                columns: new[] { "StaffId", "CreationDate", "EditDate", "Email", "Equipment", "FbHandle", "FirstName", "IgHandle", "LastName", "PhoneNumber", "Role" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2020, 11, 10, 20, 46, 51, 693, DateTimeKind.Local).AddTicks(728), null, "gc@gmail.com", "Kamera - Sony, Studijske luči", "facebook\\gajsl", "Gaj", "instagram\\gajsl", "Črešnik", "040-123-456", 2 },
-                    { 2, new DateTime(2020, 11, 10, 20, 46, 51, 697, DateTimeKind.Local).AddTicks(2830), null, "bs@gmail.com", "", "facebook\\bobby", "Bob", "instagram\\bobby", "Sabath", "040-334-555", 1 },
-                    { 3, new DateTime(2020, 11, 10, 20, 46, 51, 697, DateTimeKind.Local).AddTicks(3038), null, "ab@gmail.com", "Make up equipment", "facebook\\annieMUA", "Annie", "instagram\\annieMUA", "Buzzer", "031-435-725", 5 },
-                    { 4, new DateTime(2020, 11, 10, 20, 46, 51, 697, DateTimeKind.Local).AddTicks(3071), null, "luckar@gmail.com", "Lights, Dimmers, ..", "facebook\\luckarZdravko", "Zdravko", "instagram\\luckarZdravko", "Pravnyk", "041-465-725", 3 }
+                    { 1, new DateTime(2020, 11, 11, 21, 18, 58, 282, DateTimeKind.Local).AddTicks(5782), null, "gc@gmail.com", "Kamera - Sony, Studijske luči", "facebook\\gajsl", "Gaj", "instagram\\gajsl", "Črešnik", "040-123-456", 2 },
+                    { 2, new DateTime(2020, 11, 11, 21, 18, 58, 286, DateTimeKind.Local).AddTicks(6768), null, "bs@gmail.com", "", "facebook\\bobby", "Bob", "instagram\\bobby", "Sabath", "040-334-555", 1 },
+                    { 3, new DateTime(2020, 11, 11, 21, 18, 58, 286, DateTimeKind.Local).AddTicks(6958), null, "ab@gmail.com", "Make up equipment", "facebook\\annieMUA", "Annie", "instagram\\annieMUA", "Buzzer", "031-435-725", 5 },
+                    { 4, new DateTime(2020, 11, 11, 21, 18, 58, 286, DateTimeKind.Local).AddTicks(6993), null, "luckar@gmail.com", "Lights, Dimmers, ..", "facebook\\luckarZdravko", "Zdravko", "instagram\\luckarZdravko", "Pravnyk", "041-465-725", 3 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -271,10 +271,10 @@ namespace ZenProject.API.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Staff");
+                name: "StaffMembers");
 
             migrationBuilder.DropTable(
-                name: "TeamMembers");
+                name: "Talent");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

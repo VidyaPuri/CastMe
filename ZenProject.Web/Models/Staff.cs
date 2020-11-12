@@ -1,35 +1,26 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using ZenProject.Models.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using static ZenProject.Core.Enums;
 
 namespace ZenProject.Web.Models
 {
     public class Staff
     {
         public int StaffId { get; set; }
+
         [Required(ErrorMessage = "Please enter the first name")]
         [Display(Name = "First name")]
         [MinLength(1)]
         [StringLength(50)]
         public string FirstName { get; set; }
+
         [Required(ErrorMessage = "Please enter the last name")]
         [Display(Name = "Last name")]
         [StringLength(50)]
         public string LastName { get; set; }
 
         [Required]
-        [EnumDataType(typeof(Gender))]
-        public Gender Gender { get; set; }
-
-        [Required(ErrorMessage = "Please select the date of birth")]
-        [Display(Name = "Date of birth")]
-        public DateTime DateOfBirth { get; set; }
-
-        [Required(ErrorMessage = "Please enter the phone number")]
-        [StringLength(25)]
-        [DataType(DataType.PhoneNumber)]
-        [Display(Name = "Phone number")]
-        public string PhoneNumber { get; set; }
+        [EnumDataType(typeof(StaffRoles))]
+        public StaffRoles Role { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -38,24 +29,15 @@ namespace ZenProject.Web.Models
             ErrorMessage = "The email address is not entered in a correct format")]
         public string Email { get; set; }
 
-        [Display(Name = "Instagram handle")]
+        [Required(ErrorMessage = "Please enter the phone number")]
+        [StringLength(25)]
+        [DataType(DataType.PhoneNumber)]
+        [Display(Name = "Phone number")]
+        public string PhoneNumber { get; set; }
+
         public string IgHandle { get; set; }
-
-        [Display(Name = "Facebook handle")]
         public string FbHandle { get; set; }
-        
-        [Display(Name = "Hair color")]
-        public string HairColor { get; set; }
-        public int Height { get; set; }
-        public int Weight { get; set; }
+        public string Equipment { get; set; }
 
-        [Display(Name = "Confection number")]
-        public int ConfectionNumber { get; set; }
-
-        [Display(Name = "Shoe size")]
-        public int FeetSize { get; set; }
-        public string Alergies { get; set; }
-        public string Hobbies { get; set; }
-        public string Experience { get; set; }
     }
 }

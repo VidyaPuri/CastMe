@@ -1,0 +1,68 @@
+﻿@model Talent
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<h1>Details</h1>
+
+<dl class="row">
+    <dt class="col-sm-3">First name:</dt>
+    <dd class="col-sm-9">@Model.FirstName</dd>
+
+    <dt class="col-sm-3">Last name:</dt>
+    <dd class="col-sm-9">@Model.LastName</dd>
+
+    <dt class="col-sm-3">Gender:</dt>
+    <dd class="col-sm-9">@Model.Gender</dd>
+
+    <dt class="col-sm-3">Role:</dt>
+    <dd class="col-sm-9">@Model.Role</dd>
+
+    <dt class="col-sm-3">Email:</dt>
+    <dd class="col-sm-9">@Model.Email</dd>
+
+    <dt class="col-sm-3">Phone number:</dt>
+    <dd class="col-sm-9">@Model.PhoneNumber</dd>
+
+    <dt class="col-sm-3">Ig handle:</dt>
+    <dd class="col-sm-9">@Model.IgHandle</dd>
+
+    <dt class="col-sm-3">Fb handle:</dt>
+    <dd class="col-sm-9">@Model.FbHandle</dd>
+
+    <dt class="col-sm-3">Date of Birth:</dt>
+    <dd class="col-sm-9">@Model.DateOfBirth</dd>
+
+    <dt class="col-sm-3">Hair color:</dt>
+    <dd class="col-sm-9">@Model.HairColor</dd>
+
+    <dt class="col-sm-3">Height:</dt>
+    <dd class="col-sm-9">@Model.Height cm</dd>
+
+    <dt class="col-sm-3">Weight:</dt>
+    <dd class="col-sm-9">@Model.Weight kg</dd>
+
+    <dt class="col-sm-3">Confection number:</dt>
+    <dd class="col-sm-9">@Model.ConfectionNumber</dd>
+
+    <dt class="col-sm-3">Feet size:</dt>
+    <dd class="col-sm-9">@Model.ShoeSize</dd>
+
+    <dt class="col-sm-3">Alergies:</dt>
+    <dd class="col-sm-9">@Model.Alergies</dd>
+
+    <dt class="col-sm-3">Hobbies:</dt>
+    <dd class="col-sm-9">@Model.Hobbies</dd>
+
+    <dt class="col-sm-3">Experience:</dt>
+    <dd class="col-sm-9">@Model.Experience</dd>
+
+</dl>
+
+<p class="buttton">
+    <a class="btn btn-primary"
+       asp-controller="Talent"
+       asp-action="Index">
+        Back to list
+    </a>
+</p>
