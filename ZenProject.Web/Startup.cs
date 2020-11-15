@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ZenProject.Web.Data;
 
 namespace ZenProject
 {
@@ -24,7 +25,7 @@ namespace ZenProject
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddSingleton<ITeamMemberData, InMemoryTeamMemberData>();
-
+            services.AddScoped<RestClient, RestClient>();
             services.AddControllersWithViews();
         }
 

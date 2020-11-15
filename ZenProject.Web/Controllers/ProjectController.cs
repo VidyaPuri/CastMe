@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using ZenProject.Web.Data;
 using ZenProject.Web.Models;
 using ZenProject.Web.ViewModels;
 
@@ -13,17 +14,26 @@ namespace ZenProject.Web.Controllers
 {
     public class ProjectController : Controller
     {
+        private readonly RestClient _instance;
+
+        public ProjectController(RestClient instance)
+        {
+            _instance = instance;
+        }
+
         // GET: Project
         public async Task<IActionResult> Index()
         {
             ProjectListViewModel projects = new ProjectListViewModel();
 
-            using (var httpClient = new HttpClient())
-            {
-                using var response = await httpClient.GetAsync("https://localhost:44376/api/project");
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                projects.ProjectList = JsonConvert.DeserializeObject<List<Project>>(apiResponse);
-            }
+            //using (var httpClient = new HttpClient())
+            //{
+            //    using var response = await httpClient.GetAsync("https://localhost:44376/api/project");
+            //    string apiResponse = await response.Content.ReadAsStringAsync();
+            //    projects.ProjectList = JsonConvert.DeserializeObject<List<Project>>(apiResponse);
+            //}
+
+            projects.ProjectList = await _instance.GetAllProjects<List<Project>>();
 
             return View("List", projects);
         }
