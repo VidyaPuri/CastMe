@@ -14,13 +14,6 @@ namespace ZenProject.Web.Controllers
 {
     public class ProjectController : Controller
     {
-        private readonly RestClient _instance;
-
-        public ProjectController(RestClient instance)
-        {
-            _instance = instance;
-        }
-
         // GET: Project
         public async Task<IActionResult> Index()
         {
@@ -33,7 +26,7 @@ namespace ZenProject.Web.Controllers
             //    projects.ProjectList = JsonConvert.DeserializeObject<List<Project>>(apiResponse);
             //}
 
-            projects.ProjectList = await _instance.GetAllProjects<List<Project>>();
+            projects.ProjectList = await RestClient.Instance.GetAllProjects<List<Project>>();
 
             return View("List", projects);
         }
