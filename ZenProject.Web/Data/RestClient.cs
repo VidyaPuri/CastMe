@@ -14,6 +14,11 @@ namespace ZenProject.Web.Data
         private readonly HttpClient _httpClient;
         private static RestClient _instance;
 
+        /// <summary>
+        /// Get this to configuration.json file - one day
+        /// </summary>
+        public string ApiUrl { get; set; } = "https://localhost:44376/api/";
+
         #region Constructor
 
         public static RestClient Instance
@@ -64,6 +69,8 @@ namespace ZenProject.Web.Data
 
         private async Task<T> RequestData<T>(HttpMethod method, string url, List<KeyValuePair<string, string>> urlParameters = null, object bodyData = null)
         {
+            try
+            {
                 UriBuilder ub = new UriBuilder(url);
                 if (urlParameters != null && urlParameters.Count > 0)
                     ub.Query = new FormUrlEncodedContent(urlParameters).ReadAsStringAsync().Result;
@@ -87,6 +94,13 @@ namespace ZenProject.Web.Data
                 var responseMessage = JsonConvert.DeserializeObject<T>(response.Content.ReadAsStringAsync().Result);
 
                 return responseMessage;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                throw;
+            }
+               
         }
     }
 }
