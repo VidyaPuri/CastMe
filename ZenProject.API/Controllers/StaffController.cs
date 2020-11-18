@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using ZenProject.API.Models;
@@ -21,8 +19,8 @@ namespace ZenProject.API.Controllers
         private readonly LinkGenerator _linkGenerator;
 
         public StaffController(IStaffRepository teamMemberRepository,
-                                    IMapper mapper, 
-                                    LinkGenerator linkGenerator)
+                                IMapper mapper, 
+                                LinkGenerator linkGenerator)
         {
             _teamMemberRepository = teamMemberRepository;
             _mapper = mapper;
@@ -30,7 +28,7 @@ namespace ZenProject.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<StaffModel[]>> Get()
+        public async Task<ActionResult<StaffModel[]>> GetStaffList()
         {
             try
             {
@@ -45,7 +43,7 @@ namespace ZenProject.API.Controllers
         }
 
         [HttpGet("{Id:int}")]
-        public async Task<ActionResult<StaffModel>> Get(int id)
+        public async Task<ActionResult<StaffModel>> GetStaffMember(int id)
         {
             try
             {
@@ -62,7 +60,7 @@ namespace ZenProject.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<StaffModel>> Create(StaffModel model)
+        public async Task<ActionResult<StaffModel>> CreateStaffMember(StaffModel model)
         {
             try
             {
@@ -72,7 +70,10 @@ namespace ZenProject.API.Controllers
                 var staffMember = _mapper.Map<Staff>(model);
                 _teamMemberRepository.Add(staffMember);
 
-                var location = _linkGenerator.GetPathByAction("Get", "Staff", new { StaffId = staffMember.StaffId });
+                var location = _linkGenerator.GetPathByAction(
+                                                action: "CreateStaffMember",
+                                                controller: "Staff",
+                                                values: new { staffId = staffMember.StaffId });
 
                 if (await _teamMemberRepository.SaveChangesAsync())
                 {
@@ -90,7 +91,7 @@ namespace ZenProject.API.Controllers
 
 
         [HttpPut("{Id:int}")]
-        public async Task<ActionResult<StaffModel>> Put(int id, StaffModel staffMember)
+        public async Task<ActionResult<StaffModel>> PutStaffMember(int id, StaffModel staffMember)
         {
             try
             {
@@ -115,7 +116,7 @@ namespace ZenProject.API.Controllers
         }
 
         [HttpDelete("{Id:int}")]
-        public async Task<ActionResult<StaffModel>> Delete(int id)
+        public async Task<ActionResult<StaffModel>> DeleteStaffMember(int id)
         {
             try
             {

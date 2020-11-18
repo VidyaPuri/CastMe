@@ -1,1 +1,62 @@
-﻿
+﻿@model Project
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<h1>Details</h1>
+
+<dl class="row">
+    <dt class="col-sm-3">Title:</dt>
+    <dd class="col-sm-9">@Model.Title</dd>
+
+    <dt class="col-sm-3">Status:</dt>
+    <dd class="col-sm-9">@Model.Status</dd>
+
+    <dt class="col-sm-3">Outfit:</dt>
+    <dd class="col-sm-9">@Model.Outfit</dd>
+
+    <dt class="col-sm-3">Concept:</dt>
+    <dd class="col-sm-9">@Model.Concept</dd>
+
+    <dt class="col-sm-3">Location:</dt>
+    <dd class="col-sm-9">@Model.Location</dd>
+
+    <dt class="col-sm-3">Lighting:</dt>
+    <dd class="col-sm-9">@Model.Lighting</dd>
+
+    <dt class="col-sm-3">Composition:</dt>
+    <dd class="col-sm-9">@Model.Composition</dd>
+
+    <dt class="col-sm-3">Props:</dt>
+    <dd class="col-sm-9">@Model.Props</dd>
+
+    <dt class="col-sm-3">Equipment:</dt>
+    <dd class="col-sm-9">@Model.Equipment</dd>
+
+    <dt class="col-sm-3">Talents:</dt>
+    <dd class="col-sm-9">@Model.Talents</dd>
+
+    <dt class="col-sm-3">Staff:</dt>
+    <dd class="col-sm-9">@Model.Staff</dd>
+
+    <dt class="col-sm-3">Form:</dt>
+    <dd class="col-sm-9">@Model.Form</dd>
+
+    <dt class="col-sm-3">Other:</dt>
+    <dd class="col-sm-9">@Model.Other</dd>
+
+    <dt class="col-sm-3">StartingDate:</dt>
+    <dd class="col-sm-9">@Model.StartingDate</dd>
+
+    <dt class="col-sm-3">CompletedDate:</dt>
+    <dd class="col-sm-9">@Model.CompletedDate</dd>
+
+</dl>
+
+<p class="buttton">
+    <a class="btn btn-primary"
+       asp-controller="Project"
+       asp-action="Index">
+        Back to list
+    </a>
+</p>

@@ -78,14 +78,25 @@
     </div>
 
     @*<div class="form-group">
-        <label asp-for="Talents" class="col-md-2 control-label"></label>
-        <div class="col-md-5">
-            <select class="form-control" asp-for="Talents"
-                    asp-items="">
-            </select>
-            <span asp-validation-for="Status" class="text-danger"></span>
+            <label asp-for="Talents" class="col-md-2 control-label"></label>
+            <div class="col-md-5">
+                <select class="form-control" asp-for="Talents"
+                        asp-items="">
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+        </div>*@
+
+    <div class="form-group">
+            <label asp-for="StaffMembers" class="col-md-2 control-label"></label>
+            <div class="col-md-5">
+                @*<select class="form-control" asp-for="StaffMembers"
+                asp-items="Html.ViewData">
+        </select>*@
+                @Html.DropDownListFor(x => Model.StaffMembers, new SelectList(Model.StaffMembers, "Value", "Text"))
+                <span asp-validation-for="StaffMembers" class="text-danger"></span>
+            </div>
         </div>
-    </div>*@
 
     <div class="form-group">
         <label asp-for="Project.Form" class="col-md-2 control-label"></label>

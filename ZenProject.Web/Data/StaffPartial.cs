@@ -6,58 +6,58 @@ namespace ZenProject.Web.Data
     public partial class RestClient
     {
         /// <summary>
-        /// Calls GetProjects method in Project Controller
+        /// Calls GetStaffList method in Staff Controller
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public Task<T> GetAllProjects<T>()
+        public Task<T> GetStaffList<T>()
         {
-            return GetData<T>(ApiUrl + "/Project");
+            return GetData<T>(ApiUrl + "/Staff");
         }
 
         /// <summary>
-        /// Calls GetProject method in Project Controller
+        /// Calls GetStaffMember method in Staff Controller
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<T> GetProject<T>(string id)
+        public Task<T> GetStaffMember<T>(string id)
         {
-            return GetData<T>(ApiUrl + $"/Project/{id}");
+            return GetData<T>(ApiUrl + $"/Staff/{id}");
         }
 
         /// <summary>
-        /// Calls PostProject method in Project Controller
+        /// Calls PostStaffMember method in Staff Controller
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="project"></param>
         /// <returns></returns>
-        public Task<T> PostProject<T>(Project project)
+        public Task<T> PostStaffMember<T>(Staff staffMember)
         {
-            return PostData<T>(ApiUrl + "/Project", bodyData: project);
+            return PostData<T>(ApiUrl + "/Staff", bodyData: staffMember);
         }
 
         /// <summary>
-        /// Calls PutProject method in Project Controller
+        /// Calls PutStaffMember method in Staff Controller
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="id"></param>
         /// <param name="project"></param>
         /// <returns></returns>
-        public Task<T> PutProject<T>(string id, Project project)
+        public Task<T> PutStaffMember<T>(string id, Staff staffMember)
         {
-            return PutData<T>(ApiUrl + $"/Project/{id}", bodyData: project);
+            return PutData<T>(ApiUrl + $"/Staff/{id}", bodyData: staffMember);
         }
 
         /// <summary>
-        /// Calls DeleteProject in Project Controller
+        /// Calls DeleteStaffMember in Staff Controller
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<T> DeleteProject<T>(string id)
+        public Task<T> DeleteStaffMember<T>(string id)
         {
-            return DeleteData<T>(ApiUrl + $"/Project/{id}");
+            return DeleteData<T>(ApiUrl + $"/Staff/{id}");
         }
     }
 }

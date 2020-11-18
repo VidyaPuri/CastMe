@@ -17,16 +17,10 @@ namespace ZenProject.Web.Controllers
         // GET: Project
         public async Task<IActionResult> Index()
         {
-            ProjectListViewModel projects = new ProjectListViewModel();
-
-            //using (var httpClient = new HttpClient())
-            //{
-            //    using var response = await httpClient.GetAsync("https://localhost:44376/api/project");
-            //    string apiResponse = await response.Content.ReadAsStringAsync();
-            //    projects.ProjectList = JsonConvert.DeserializeObject<List<Project>>(apiResponse);
-            //}
-
-            projects.ProjectList = await RestClient.Instance.GetAllProjects<List<Project>>();
+            ProjectListViewModel projects = new ProjectListViewModel
+            {
+                ProjectList = await RestClient.Instance.GetAllProjects<List<Project>>()
+            };
 
             return View("List", projects);
         }
@@ -34,14 +28,7 @@ namespace ZenProject.Web.Controllers
         // GET: Project/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            Project project;
-
-            using (var httpClient = new HttpClient())
-            {
-                using var response = await httpClient.GetAsync($"https://localhost:44376/api/project/{id}");
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                project = JsonConvert.DeserializeObject<Project>(apiResponse);
-            }
+            Project project = await RestClient.Instance.GetProject<Project>(id.ToString());
             if (project == null) return NotFound("Could not find this project");
 
             return View(project);
@@ -50,12 +37,13 @@ namespace ZenProject.Web.Controllers
         // GET: Project/Create
         public async Task<IActionResult> Create()
         {
-            CreateProjectViewModel projectViewModel = new CreateProjectViewModel();
+            CreateProjectViewModel projectViewModel = new CreateProjectViewModel
+            {
+                StaffMembers = await RestClient.Instance.GetStaffList<List<Staff>>()
+            };
 
-            TalentController ctrl = new TalentController(); // not good practice
-            var response = await ctrl.Index();
 
-            return View();
+            return View(projectViewModel);
         }
 
         // POST: Project/Create
@@ -66,15 +54,7 @@ namespace ZenProject.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (var httpClient = new HttpClient())
-                    {
-                        string stringContent = JsonConvert.SerializeObject(project);
-
-                        using var responseMessage = await httpClient.PostAsync("https://localhost:44376/api/project/", new StringContent(stringContent, Encoding.UTF8, "application/json"));
-                        string apiResponse = await responseMessage.Content.ReadAsStringAsync();
-                        var response = JsonConvert.DeserializeObject(apiResponse);
-                        Console.WriteLine(response);
-                    }
+                    Project newProject = await RestClient.Instance.PostProject<Project>(project);
                     return RedirectToAction("Index");
                 }
 
@@ -91,14 +71,7 @@ namespace ZenProject.Web.Controllers
         {
             try
             {
-                Project project;
-
-                using (var httpClient = new HttpClient())
-                {
-                    using var response = await httpClient.GetAsync($"https://localhost:44376/api/project/{id}");
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    project = JsonConvert.DeserializeObject<Project>(apiResponse);
-                }
+                Project project = await RestClient.Instance.GetProject<Project>(id.ToString());
                 if (project == null) return NotFound("Could not find this project!");
 
                 return View(project);
@@ -117,15 +90,7 @@ namespace ZenProject.Web.Controllers
             {
                 if (id == null) return NotFound();
 
-                using (var httpClient = new HttpClient())
-                {
-                    string stringContent = JsonConvert.SerializeObject(project);
-
-                    using var responseMessage = await httpClient.PutAsync($"https://localhost:44376/api/project/{id}", new StringContent(stringContent, Encoding.UTF8, "application/json"));
-                    string apiResponse = await responseMessage.Content.ReadAsStringAsync();
-                    var response = JsonConvert.DeserializeObject(apiResponse);
-                    Console.WriteLine(response);
-                }
+                var response = await RestClient.Instance.PutProject<Project>(id.ToString(), project);
                 return RedirectToAction("Index");
             }
             catch
@@ -137,14 +102,7 @@ namespace ZenProject.Web.Controllers
         // GET: Project/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            Project project;
-
-            using (var httpClient = new HttpClient())
-            {
-                using var response = await httpClient.GetAsync($"https://localhost:44376/api/project/{id}");
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                project = JsonConvert.DeserializeObject<Project>(apiResponse);
-            }
+            Project project = await RestClient.Instance.GetProject<Project>(id.ToString());
             if (project == null) return NotFound("Could not find this project!");
 
             return View(project);
@@ -156,12 +114,7 @@ namespace ZenProject.Web.Controllers
         {
             try
             {
-                using (var httpClient = new HttpClient())
-                {
-                    using var responseMessage = await httpClient.DeleteAsync($"https://localhost:44376/api/project/{id}");
-                    string apiResponse = await responseMessage.Content.ReadAsStringAsync();
-                    var response = JsonConvert.DeserializeObject(apiResponse);
-                }
+                var response =  await RestClient.Instance.DeleteProject<Project>(id.ToString());
                 return RedirectToAction("Index");
             }
             catch

@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using ZenProject.Web.ViewModels;
 using ZenProject.Web.Models;
 using Microsoft.AspNetCore.Http;
+using ZenProject.Web.Data;
 
 namespace ZenProject.Controllers
 {
@@ -15,28 +16,17 @@ namespace ZenProject.Controllers
     {
         public async Task<IActionResult> Index()
         {
-            StaffListViewModel staffList = new StaffListViewModel();
-
-            using (var httpClient = new HttpClient())
+            StaffListViewModel staffList = new StaffListViewModel
             {
-                using var response = await httpClient.GetAsync("https://localhost:44376/api/staff");
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                staffList.StaffMembers = JsonConvert.DeserializeObject<List<Staff>>(apiResponse);
-            }
+                StaffMembers = await RestClient.Instance.GetStaffList<List<Staff>>()
+            };
 
             return View("List", staffList);
         }
 
         public async Task<IActionResult> Details(int id)
         {
-            Staff staffMember;
-
-            using (var httpClient = new HttpClient())
-            {
-                using var response = await httpClient.GetAsync($"https://localhost:44376/api/staff/{id}");
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                staffMember = JsonConvert.DeserializeObject<Staff>(apiResponse);
-            }
+            Staff staffMember = await RestClient.Instance.GetStaffMember<Staff>(id.ToString());
             if (staffMember == null) return NotFound("Could not find this user!");
 
             return View(staffMember);
@@ -50,65 +40,56 @@ namespace ZenProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Staff staffMember)
         {
-            if (ModelState.IsValid)
+            try
             {
-                using (var httpClient = new HttpClient())
+                if (ModelState.IsValid)
                 {
-                    string stringContent = JsonConvert.SerializeObject(staffMember);
-
-                    using var responseMessage = await httpClient.PostAsync("https://localhost:44376/api/staff/", new StringContent(stringContent, Encoding.UTF8, "application/json"));
-                    string apiResponse = await responseMessage.Content.ReadAsStringAsync();
-                    var response = JsonConvert.DeserializeObject(apiResponse);
-                    Console.WriteLine(response);
+                    Staff newStaffMember = await RestClient.Instance.PostStaffMember<Staff>(staffMember);
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
-            }
 
-            return View(staffMember);
+                return View(staffMember);
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         public async Task<IActionResult> Edit(int id)
         {
-            Staff staffMember;
-
-            using (var httpClient = new HttpClient())
+            try
             {
-                using var response = await httpClient.GetAsync($"https://localhost:44376/api/staff/{id}");
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                staffMember = JsonConvert.DeserializeObject<Staff>(apiResponse);
-            }
-            if (staffMember == null) return NotFound("Could not find this user!");
+                Staff staffMember = await RestClient.Instance.GetStaffMember<Staff>(id.ToString());
+                if (staffMember == null) return NotFound("Could not find this user!");
 
-            return View(staffMember);
+                return View(staffMember);
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         [HttpPost, ActionName("Edit")]
         public async Task<ActionResult<Staff>> Edit(int? id, Staff staffMember)
         {
-            if (id == null) return NotFound();
-
-            using (var httpClient = new HttpClient())
+            try
             {
-                string stringContent = JsonConvert.SerializeObject(staffMember);
+                if (id == null) return NotFound();
 
-                using var responseMessage = await httpClient.PutAsync($"https://localhost:44376/api/staff/{id}", new StringContent(stringContent, Encoding.UTF8, "application/json"));
-                string apiResponse = await responseMessage.Content.ReadAsStringAsync();
-                var response = JsonConvert.DeserializeObject(apiResponse);
-                Console.WriteLine(response);
+                Staff updatedStaffMember = await RestClient.Instance.PutStaffMember<Staff>(id.ToString(), staffMember);
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
+            catch 
+            {
+                return View();
+            }
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-            Staff staffMember;
-
-            using (var httpClient = new HttpClient())
-            {
-                using var response = await httpClient.GetAsync($"https://localhost:44376/api/staff/{id}");
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                staffMember = JsonConvert.DeserializeObject<Staff>(apiResponse);
-            }
+            Staff staffMember = await RestClient.Instance.GetStaffMember<Staff>(id.ToString());
             if (staffMember == null) return NotFound("Could not find this user!");
 
             return View(staffMember);
@@ -119,13 +100,7 @@ namespace ZenProject.Controllers
         {
             try
             {
-                using (var httpClient = new HttpClient())
-                {
-                    using var responseMessage = await httpClient.DeleteAsync($"https://localhost:44376/api/staff/{id}");
-                    string apiResponse = await responseMessage.Content.ReadAsStringAsync();
-                    var response = JsonConvert.DeserializeObject(apiResponse);
-                    Console.WriteLine(response);
-                }
+                Staff staffMember = await RestClient.Instance.DeleteStaffMember<Staff>(id.ToString());
                 return RedirectToAction("Index");
             }
             catch (Exception)
@@ -134,13 +109,5 @@ namespace ZenProject.Controllers
             }
 
         }
-
-        //[HttpPost, ActionName("Edit")]
-        //public async Task<ActionResult<Staff>> EditPost(int? id)
-        //{
-        //    if (id == null) return NotFound();
-
-                
-        //}
     }
 }

@@ -92,7 +92,7 @@ namespace ZenProject.API.Controllers
             _context.Projects.Remove(project);
             await _context.SaveChangesAsync();
 
-            return project;
+            return Ok();
         }
 
 

@@ -17,7 +17,7 @@ namespace ZenProject.Web.Data
         /// <summary>
         /// Get this to configuration.json file - one day
         /// </summary>
-        public string ApiUrl { get; set; } = "https://localhost:44376/api/";
+        public string ApiUrl { get; set; } = "https://localhost:44376/api";
 
         #region Constructor
 
@@ -46,23 +46,22 @@ namespace ZenProject.Web.Data
 
         #endregion
 
-
-        public async Task<T> PutData<T>(string url, List<KeyValuePair<string, string>> urlParameters = null, object bodyData = null)
+        private async Task<T> PutData<T>(string url, List<KeyValuePair<string, string>> urlParameters = null, object bodyData = null)
         {
             return await RequestData<T>(HttpMethod.Put, url, urlParameters, bodyData);
         }
 
-        public async Task<T> PostData<T>(string url, List<KeyValuePair<string, string>> urlParameters = null, object bodyData = null)
+        private async Task<T> PostData<T>(string url, List<KeyValuePair<string, string>> urlParameters = null, object bodyData = null)
         {
             return await RequestData<T>(HttpMethod.Post, url, urlParameters, bodyData);
         }
 
-        public async Task<T> DeleteData<T>(string url, List<KeyValuePair<string, string>> urlParameters = null, object bodyData = null)
+        private async Task<T> DeleteData<T>(string url, List<KeyValuePair<string, string>> urlParameters = null, object bodyData = null)
         {
             return await RequestData<T>(HttpMethod.Delete, url, urlParameters, bodyData);
         }
 
-        public async Task<T> GetData<T>(string url, List<KeyValuePair<string, string>> urlParameters = null, object bodyData = null)
+        private async Task<T> GetData<T>(string url, List<KeyValuePair<string, string>> urlParameters = null, object bodyData = null)
         {
             return await RequestData<T>(HttpMethod.Get, url, urlParameters, bodyData);
         }
@@ -77,7 +76,7 @@ namespace ZenProject.Web.Data
 
                 HttpContent content = null;
 
-                if (bodyData == null)
+                if (bodyData != null)
                 {
                     string jsonData = JsonConvert.SerializeObject(bodyData);
                     content = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -91,7 +90,9 @@ namespace ZenProject.Web.Data
                 };
 
                 HttpResponseMessage response = await _httpClient.SendAsync(request);
-                var responseMessage = JsonConvert.DeserializeObject<T>(response.Content.ReadAsStringAsync().Result);
+                string jsonResponse = response.Content.ReadAsStringAsync().Result;
+
+                T responseMessage = JsonConvert.DeserializeObject<T>(jsonResponse);
 
                 return responseMessage;
             }
