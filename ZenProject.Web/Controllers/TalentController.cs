@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+using ZenProject.Web.Data;
 using ZenProject.Web.Models;
 using ZenProject.Web.ViewModels;
 
@@ -16,14 +13,10 @@ namespace ZenProject.Web.Controllers
         // GET: Talent
         public async Task<IActionResult> Index()
         {
-            TalentListViewModel talentMembers = new TalentListViewModel();
-
-            using (var httpClient = new HttpClient())
+            TalentListViewModel talentMembers = new TalentListViewModel
             {
-                using var response = await httpClient.GetAsync("https://localhost:44376/api/talent");
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                talentMembers.TalentList = JsonConvert.DeserializeObject<List<Talent>>(apiResponse);
-            }
+                TalentList = await RestClient.Instance.GetTalentList<List<Talent>>()
+            };
 
             return View("List",talentMembers);
         }
@@ -31,14 +24,7 @@ namespace ZenProject.Web.Controllers
         // GET: Talent/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            Talent talentMember;
-
-            using (var httpClient = new HttpClient())
-            {
-                using var response = await httpClient.GetAsync($"https://localhost:44376/api/talent/{id}");
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                talentMember = JsonConvert.DeserializeObject<Talent>(apiResponse);
-            }
+            Talent talentMember = await RestClient.Instance.GetTalentMember<Talent>(id.ToString());
             if (talentMember == null) return NotFound("Could not find this user!");
 
             return View(talentMember);
@@ -55,21 +41,21 @@ namespace ZenProject.Web.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Talent talentMember)
         {
-            if (ModelState.IsValid)
+            try
             {
-                using (var httpClient = new HttpClient())
+                if (ModelState.IsValid)
                 {
-                    string stringContent = JsonConvert.SerializeObject(talentMember);
-
-                    using var responseMessage = await httpClient.PostAsync("https://localhost:44376/api/talent/", new StringContent(stringContent, Encoding.UTF8, "application/json"));
-                    string apiResponse = await responseMessage.Content.ReadAsStringAsync();
-                    var response = JsonConvert.DeserializeObject(apiResponse);
-                    Console.WriteLine(response);
+                    Talent newTalent = await RestClient.Instance.PostTalentMember<Talent>(talentMember);
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
-            }
 
-            return View(talentMember);
+                return View(talentMember);
+            }
+            catch
+            {
+                return View();
+            }
+           
         }
 
         // GET: Talent/Edit/5
@@ -77,14 +63,7 @@ namespace ZenProject.Web.Controllers
         {
             try
             {
-                Talent talentMember;
-
-                using (var httpClient = new HttpClient())
-                {
-                    using var response = await httpClient.GetAsync($"https://localhost:44376/api/talent/{id}");
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    talentMember = JsonConvert.DeserializeObject<Talent>(apiResponse);
-                }
+                Talent talentMember = await RestClient.Instance.GetTalentMember<Talent>(id.ToString());
                 if (talentMember == null) return NotFound("Could not find this user!");
 
                 return View(talentMember);
@@ -99,31 +78,24 @@ namespace ZenProject.Web.Controllers
         [HttpPost, ActionName("Edit")]
         public async Task<IActionResult> Edit(int? id, Talent talentMember)
         {
-            if (id == null) return NotFound();
-
-            using (var httpClient = new HttpClient())
+            try
             {
-                string stringContent = JsonConvert.SerializeObject(talentMember);
+                if (id == null) return NotFound();
 
-                using var responseMessage = await httpClient.PutAsync($"https://localhost:44376/api/talent/{id}", new StringContent(stringContent, Encoding.UTF8, "application/json"));
-                string apiResponse = await responseMessage.Content.ReadAsStringAsync();
-                var response = JsonConvert.DeserializeObject(apiResponse);
-                Console.WriteLine(response);
+                var response = await RestClient.Instance.PutTalentMember<Talent>(id.ToString(), talentMember);
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
+            catch
+            {
+                return View();
+            }
+            
         }
 
         // GET: Talent/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            Talent talentMember;
-
-            using (var httpClient = new HttpClient())
-            {
-                using var response = await httpClient.GetAsync($"https://localhost:44376/api/talent/{id}");
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                talentMember = JsonConvert.DeserializeObject<Talent>(apiResponse);
-            }
+            Talent talentMember = await RestClient.Instance.GetTalentMember<Talent>(id.ToString());
             if (talentMember == null) return NotFound("Could not find this user!");
 
             return View(talentMember);
@@ -133,14 +105,15 @@ namespace ZenProject.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id, IFormCollection collection)
         {
-            using (var httpClient = new HttpClient())
+            try
             {
-                using var responseMessage = await httpClient.DeleteAsync($"https://localhost:44376/api/talent/{id}");
-                string apiResponse = await responseMessage.Content.ReadAsStringAsync();
-                var response = JsonConvert.DeserializeObject(apiResponse);
+                var response = await RestClient.Instance.DeleteTalentMember<Talent>(id.ToString());
+                return RedirectToAction("Index");
             }
-
-            return RedirectToAction("Index");
+            catch
+            {
+                return RedirectToAction("Index");
+            }
         }
     }
 }

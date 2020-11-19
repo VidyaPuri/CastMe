@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using ZenProject.Web.ViewModels;
 using ZenProject.Web.Models;
 using Microsoft.AspNetCore.Http;
